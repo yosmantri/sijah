@@ -1,0 +1,26 @@
+Jamu App Webserver		
+	Views/Display	
+		Set input boxes to aligned top vertically
+		Centralize the position of entity lists
+		Provide div for showing additional info for data input
+		Use suggestion/text completion, instead of select box
+		Facilitate add more box, for each entity, "intuitively"
+		Set initial boxes for each entity
+		Set initial edges to connect all entity members into all items adjacent entities
+		Design the entities & edges to be dynamic, not static
+		Modification for compound-protein node
+		Provide information for compound-protein edges on a popup menu
+		Set menu on navbar
+		Export searched data into various formats
+		Redesign header & footer
+		Extensive code documentation
+	Search/Predict	
+		Provide information based on search form, via AJAX mechanism
+		Add showing information based on "prediction"
+		Port existing predictors into C++/Python
+		Develop own method for prediction
+	Database	
+		Init database
+		Maintain the database periodically
+		Create robots for crawling data from online databases
+		Create API for accessing local database
