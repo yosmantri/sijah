@@ -1,0 +1,188 @@
+{% include 'jamu_app/header.html' %}
+
+<script>
+	// copied from http://stackoverflow.com/questions/4270485/drawing-lines-on-html-page, with some modifications
+	function createLineElement(x, y, length, angle, id, linestyle) {
+		var line = document.createElement("div");
+		var line_style = (typeof linestyle !== "undefined") ? linestyle : '1px dashed grey';
+		var styles = 'border: ' + line_style + '; '
+		+ 'width: ' + length + 'px; '
+		+ 'height: 0px; '
+		+ '-moz-transform: rotate(' + angle + 'rad); '
+		+ '-webkit-transform: rotate(' + angle + 'rad); '
+		+ '-o-transform: rotate(' + angle + 'rad); '  
+		+ '-ms-transform: rotate(' + angle + 'rad); '  
+		+ 'position: absolute; '
+		+ 'top: ' + y + 'px; '
+		+ 'left: ' + x + 'px; '
+		+ 'z-index: -10; ';
+		line.setAttribute('style', styles);
+		line.setAttribute('id', id);
+		return line;
+	}
+	function createLine(x1, y1, x2, y2, id, linestyle) {
+		var a = x1 - x2,
+		b = y1 - y2,
+		c = Math.sqrt(a * a + b * b);
+
+		var sx = (x1 + x2) / 2,
+		sy = (y1 + y2) / 2;
+
+		var x = sx - c / 2,
+		y = sy;
+
+		var alpha = Math.PI - Math.atan2(-b, a);
+
+		return createLineElement(x, y, c, alpha, id, linestyle);
+	}
+	// linestyle variations: '{solid, dashed} {grey, red, yellow}'/'rgba(255,255,255,0)'
+</script>
+
+<h2>Search Plant - Compound - Protein - Disease Connectivity</h2>
+<br>
+<form>
+	<table align="center">
+		<tr>
+			<th class="entname">Plant</th>
+			<td class="interentity">&nbsp;</td>
+			<th class="entname">Compound</th>
+			<td class="interentitygroup">&nbsp;</td>
+			<th class="entname">Protein</th>
+			<td class="interentity">&nbsp;</td>
+			<th class="entname">Disease</th>
+		</tr>
+		<tr>
+			<td class="td-entity">
+				<div class="rect-entity">
+					<select id="list-plant_1">
+						<option value selected="selected">-----</option>
+						{% for plant in form.listPlant.field.queryset %}
+						<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="rect-entity">
+					<select id="list-plant_2">
+						<option value selected="selected">-----</option>
+						{% for plant in form.listPlant.field.queryset %}
+						<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="rect-entity">
+					<select id="list-plant_3">
+						<option value selected="selected">-----</option>
+						{% for plant in form.listPlant.field.queryset %}
+						<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="rect-entity">
+					<select id="list-plant_4">
+						<option value selected="selected">-----</option>
+						{% for plant in form.listPlant.field.queryset %}
+						<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+						{% endfor %}
+					</select>
+				</div>
+			</td>
+			<td></td>
+			<td class="td-entity">
+				<div class="rect-entity">
+					<select id="list-compound_1">
+						<option value selected="selected">-----</option>
+						{% for compound in form.listCompound.field.queryset %}
+						<option value="{{ compound.compound_id }}">{{ compound.compound_name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="rect-entity">
+					<select id="list-compound_2">
+						<option value selected="selected">-----</option>
+						{% for compound in form.listCompound.field.queryset %}
+						<option value="{{ compound.compound_id }}">{{ compound.compound_name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</td>
+			<td></td>
+			<td class="td-entity">
+				<div class="rect-entity">
+					<select id="list-protein_1">
+						<option value selected="selected">-----</option>
+						{% for protein in form.listProtein.field.queryset %}
+						<option value="{{ protein.protein_id }}">{{ protein.protein_name }} ({{ protein.protein_code }})</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="rect-entity">
+					<select id="list-protein_2">
+						<option value selected="selected">-----</option>
+						{% for protein in form.listProtein.field.queryset %}
+						<option value="{{ protein.protein_id }}">{{ protein.protein_name }} ({{ protein.protein_code }})</option>
+						{% endfor %}
+					</select>
+				</div>
+			</td>
+			<td></td>
+			<td class="td-entity">
+				<div class="rect-entity">
+					<select id="list-disease">
+						<option value selected="selected">-----</option>
+						{% for disease in form.listDisease.field.queryset %}
+						<option value="{{ disease.disease_id }}">{{ disease.disease_name_en }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</td>
+		</tr>
+		<!--tr><td colspan="7" style="text-align:right">Legend: <span style="color:green">-</span> Good <span style="color:yellow">-</span> Not too good <span style="color:red">-</span> Bad </td></tr-->
+		<tr><td colspan="7" style="text-align:center"><input type="button" value="Submit" style="margin: 25px;"></td></tr>
+	</table>
+</form>
+<div id="divResultAjax" style="display: none;"></div>
+<script type="text/javascript">
+var lstplant1rx = $("#list-plant_1").position().left + $("#list-plant_1").width() + 5;
+var lstplant1ry = $("#list-plant_1").position().top + ($("#list-plant_1").height() / 2) + 5;
+var lstplant2rx = $("#list-plant_2").position().left + $("#list-plant_2").width() + 5;
+var lstplant2ry = $("#list-plant_2").position().top + ($("#list-plant_2").height() / 2) + 5;
+var lstplant3rx = $("#list-plant_3").position().left + $("#list-plant_3").width() + 5;
+var lstplant3ry = $("#list-plant_3").position().top + ($("#list-plant_3").height() / 2) + 5;
+var lstplant4rx = $("#list-plant_4").position().left + $("#list-plant_4").width() + 5;
+var lstplant4ry = $("#list-plant_4").position().top + ($("#list-plant_4").height() / 2) + 5;
+var lstcomp1lx = $("#list-compound_1").position().left + 5
+var lstcomp1ly = $("#list-compound_1").position().top + ($("#list-compound_1").height() / 2) + 5;
+var lstcomp1rx = $("#list-compound_1").position().left + $("#list-compound_1").width() + 5;
+var lstcomp1ry = $("#list-compound_1").position().top + ($("#list-compound_1").height() / 2) + 5;
+var lstcomp2lx = $("#list-compound_2").position().left + 5
+var lstcomp2ly = $("#list-compound_2").position().top + ($("#list-compound_2").height() / 2) + 5;
+var lstcomp2rx = $("#list-compound_2").position().left + $("#list-compound_2").width() + 5;
+var lstcomp2ry = $("#list-compound_2").position().top + ($("#list-compound_2").height() / 2) + 5;
+var lstprot1lx = $("#list-protein_1").position().left + 5
+var lstprot1ly = $("#list-protein_1").position().top + ($("#list-protein_1").height() / 2) + 5;
+var lstprot1rx = $("#list-protein_1").position().left + $("#list-protein_1").width() + 5;
+var lstprot1ry = $("#list-protein_1").position().top + ($("#list-protein_1").height() / 2) + 5;
+var lstprot2lx = $("#list-protein_2").position().left + 5
+var lstprot2ly = $("#list-protein_2").position().top + ($("#list-protein_2").height() / 2) + 5;
+var lstprot2rx = $("#list-protein_2").position().left + $("#list-protein_2").width() + 5;
+var lstprot2ry = $("#list-protein_2").position().top + ($("#list-protein_2").height() / 2) + 5;
+var lstdislx = $("#list-disease").position().left + 5
+var lstdisly = $("#list-disease").position().top + ($("#list-disease").height() / 2) + 5;
+
+document.body.appendChild(createLine(lstplant1rx, lstplant1ry, lstcomp1lx, lstcomp1ly, "lnPlant1Comp1"));
+document.body.appendChild(createLine(lstplant2rx, lstplant2ry, lstcomp1lx, lstcomp1ly, "lnPlant2Comp1"));
+document.body.appendChild(createLine(lstplant3rx, lstplant3ry, lstcomp1lx, lstcomp1ly, "lnPlant3Comp1"));
+document.body.appendChild(createLine(lstplant4rx, lstplant4ry, lstcomp1lx, lstcomp1ly, "lnPlant4Comp1"));
+document.body.appendChild(createLine(lstplant1rx, lstplant1ry, lstcomp2lx, lstcomp2ly, "lnPlant1Comp2"));
+document.body.appendChild(createLine(lstplant2rx, lstplant2ry, lstcomp2lx, lstcomp2ly, "lnPlant2Comp2"));
+document.body.appendChild(createLine(lstplant3rx, lstplant3ry, lstcomp2lx, lstcomp2ly, "lnPlant3Comp2"));
+document.body.appendChild(createLine(lstplant4rx, lstplant4ry, lstcomp2lx, lstcomp2ly, "lnPlant4Comp2"));
+document.body.appendChild(createLine(lstcomp1rx, lstcomp1ry, lstprot1lx, lstprot1ly, "lnComp1Prot1"));
+document.body.appendChild(createLine(lstcomp2rx, lstcomp2ry, lstprot1lx, lstprot1ly, "lnComp2Prot1"));
+document.body.appendChild(createLine(lstcomp1rx, lstcomp1ry, lstprot2lx, lstprot2ly, "lnComp1Prot2"));
+document.body.appendChild(createLine(lstcomp2rx, lstcomp2ry, lstprot2lx, lstprot2ly, "lnComp2Prot2"));
+document.body.appendChild(createLine(lstprot1rx, lstprot1ry, lstdislx, lstdisly, "lnProt1Dis"));
+document.body.appendChild(createLine(lstprot2rx, lstprot2ry, lstdislx, lstdisly, "lnProt2Dis"));
+</script>
+
+{% include 'jamu_app/footer.html' %}

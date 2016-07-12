@@ -1,0 +1,76 @@
+<!-- include header file here -->
+
+<h2>Input Form</h2>
+
+<form name="form" action="{% url 'jamu_app.views.input' %}" method="POST">
+	{% csrf_token %}
+	{{ form.non_field_errors }}
+	<table>
+		<tr>
+			<td>Disease</td>
+			<td>
+				<select id="id_list_penyakit" name="list_penyakit">
+					<option value selected="selected">---------</option>
+					{% for penyakit in form.list_penyakit.field.queryset %}
+						<option value="{{ penyakit.id_penyakit }}">{{ penyakit }}</option>
+					{% endfor %}
+				</select>
+				{{ form.list_penyakit.errors }}
+			</td>
+		</tr>
+		<tr>
+			<td>Jamu Formulas</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+							Plant #1:
+							<select id="id_list_tanaman_1" name="list_tanaman_1">
+								<option value selected="selected">---------</option>
+								{% for tanaman in form.list_tanaman_1.field.queryset %}
+								<option value="{{ tanaman.pk }}">{{ tanaman }}</option>
+								{% endfor %}
+							</select>
+							{{ form.list_tanaman_1.errors }}
+						</td>
+						<td>
+							Plant #2:
+							<select id="id_list_tanaman_2" name="list_tanaman_2">
+								<option value selected="selected">---------</option>
+								{% for tanaman in form.list_tanaman_2.field.queryset %}
+								<option value="{{ tanaman.pk }}">{{ tanaman }}</option>
+								{% endfor %}
+							</select>
+							{{ form.list_tanaman_2.errors }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Plant #3:
+							<select id="id_list_tanaman_3" name="list_tanaman_3">
+								<option value selected="selected">---------</option>
+								{% for tanaman in form.list_tanaman_3.field.queryset %}
+								<option value="{{ tanaman.pk }}">{{ tanaman }}</option>
+								{% endfor %}
+							</select>
+							{{ form.list_tanaman_3.errors }}
+						</td>
+						<td>
+							Plant #4:
+							<select id="id_list_tanaman_4" name="list_tanaman_4">
+								<option value selected="selected">---------</option>
+								{% for tanaman in form.list_tanaman_4.field.queryset %}
+								<option value="{{ tanaman.pk }}">{{ tanaman }}</option>
+								{% endfor %}
+							</select>
+							{{ form.list_tanaman_4.errors }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td></td><td style="text-align:right"><input type="submit" value="Submit"></td></tr>
+	</table>
+</form>
+
+<!-- include footer file here -->

@@ -1,0 +1,12 @@
+{{ showdebug }}
+
+<script>
+	var a=[
+		{% for pl_comp in showdebug %}
+			{% for comp in pl_comp %}
+				['{{ comp.protein.gi_number }}','{{ comp.compound.compound_name }}',1],
+			{% endfor %}
+		{% endfor %}
+	];
+	console.log(a);
+</script>

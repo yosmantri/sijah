@@ -1,0 +1,79 @@
+{% include 'jamu_app/header.html' %}
+
+<h2>Search Plant-Disease Connectivity</h2>
+
+<form name="form" class="form_input" action="{% url 'jamu_app.views.search' %}" method="GET">
+	{{ form.non_field_errors }}
+	<table>
+		<tr>
+			<td>Disease</td>
+			<td>
+				<select id="id_list_disease" name="list_disease">
+					<option value selected="selected">---------</option>
+					{% for disease in form.list_disease.field.queryset %}
+						<option value="{{ disease.disease_id }}">{{ disease }}</option>
+					{% endfor %}
+				</select>
+				{{ form.list_disease.errors }}
+			</td>
+		</tr>
+		<tr>
+			<td>Jamu Formulas</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+							Plant #1:
+							<select id="id_list_plant_1" name="list_plant_1" class="select_plant">
+								<option value selected="selected">---------</option>
+								{% for plant in form.list_plant_1.field.queryset %}
+								<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+								{% endfor %}
+							</select>
+							{{ form.list_plant_1.errors }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Plant #2:
+							<select id="id_list_plant_2" name="list_plant_2" class="select_plant">
+								<option value selected="selected">---------</option>
+								{% for plant in form.list_plant_2.field.queryset %}
+								<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+								{% endfor %}
+							</select>
+							{{ form.list_plant_2.errors }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Plant #3:
+							<select id="id_list_plant_3" name="list_plant_3" class="select_plant">
+								<option value selected="selected">---------</option>
+								{% for plant in form.list_plant_3.field.queryset %}
+								<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+								{% endfor %}
+							</select>
+							{{ form.list_plant_3.errors }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Plant #4:
+							<select id="id_list_plant_4" name="list_plant_4" class="select_plant">
+								<option value selected="selected">---------</option>
+								{% for plant in form.list_plant_4.field.queryset %}
+								<option value="{{ plant.plant_id }}">{{ plant.latin_name }} ({{ plant.plant_name_en }} / {{ plant.plant_name_id }})</option>
+								{% endfor %}
+							</select>
+							{{ form.list_plant_4.errors }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td></td><td style="text-align:right"><input type="submit" value="Submit"></td></tr>
+	</table>
+</form>
+
+{% include 'jamu_app/footer.html' %}

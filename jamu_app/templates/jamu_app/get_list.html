@@ -1,0 +1,103 @@
+<!-- include header file here -->
+
+<h2 style="margin-bottom:0px">Search Results</h2><br>
+(<a href="{% url 'jamu_app.views.input' %}">back to input form</a>)
+<br><br>
+List of Proteins that related with Disease "{{ penyakit }}":<br>
+{% if list_protein %}
+	<table>
+		<tr>
+			<th>No</th>
+			<th>Protein Code</th>
+			<th>Protein Name</th>
+		</tr>
+	{% for senyawa in list_senyawa %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ protein.kode_protein }}</td>
+			<td>{{ protein.nama_protein }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	No data.
+{% endif %}
+<br><br>
+
+{% for tanaman in list_tanaman %}
+	{% if tanaman.nama_tanaman == "Sembung" %}
+		List of Compounds that related with Plant "Sembung":<br>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>Compund Code</th>
+				<th>Compound Name</th>
+				<th>Molecular Formula</th>
+			</tr>
+			{% for senyawa in list_senyawa_sb %}
+				<tr>
+					<td style="text-align:center">{{ forloop.counter }}</td>
+					<td>{{ senyawa.kode_senyawa }}</td>
+					<td>{{ senyawa.nama_senyawa }}</td>
+					<td>{{ senyawa.rumus_molekul }}</td>
+				</tr>
+			{% endfor %}
+		</table><br>
+	{% elif tanaman.nama_tanaman == "Pare" %}
+		List of Compounds that related with Plant "Pare":<br>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>Compund Code</th>
+				<th>Compound Name</th>
+				<th>Molecular Formula</th>
+			</tr>
+			{% for senyawa in list_senyawa_pr %}
+				<tr>
+					<td style="text-align:center">{{ forloop.counter }}</td>
+					<td>{{ senyawa.kode_senyawa }}</td>
+					<td>{{ senyawa.nama_senyawa }}</td>
+					<td>{{ senyawa.rumus_molekul }}</td>
+				</tr>
+			{% endfor %}
+		</table><br>
+	{% elif tanaman.nama_tanaman == "Bratawali" %}
+		List of Compounds that related with Plant "Bratawali":<br>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>Compund Code</th>
+				<th>Compound Name</th>
+				<th>Molecular Formula</th>
+			</tr>
+			{% for senyawa in list_senyawa_bw %}
+				<tr>
+					<td style="text-align:center">{{ forloop.counter }}</td>
+					<td>{{ senyawa.kode_senyawa }}</td>
+					<td>{{ senyawa.nama_senyawa }}</td>
+					<td>{{ senyawa.rumus_molekul }}</td>
+				</tr>
+			{% endfor %}
+		</table><br>
+	{% elif tanaman.nama_tanaman == "Jahe" %}
+		List of Compounds that related with Plant "Jahe":<br>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>Compund Code</th>
+				<th>Compound Name</th>
+				<th>Molecular Formula</th>
+			</tr>
+			{% for senyawa in list_senyawa_jh %}
+				<tr>
+					<td style="text-align:center">{{ forloop.counter }}</td>
+					<td>{{ senyawa.kode_senyawa }}</td>
+					<td>{{ senyawa.nama_senyawa }}</td>
+					<td>{{ senyawa.rumus_molekul }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+{% endfor %}
+
+<!-- include footer file here -->
